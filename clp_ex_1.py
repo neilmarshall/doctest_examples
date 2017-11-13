@@ -109,6 +109,37 @@ def clp_4(*args):
         return [args.pos1, args.pos2, args.pos3]
 
 
+def clp_5(*args):
+    """
+    An example showing how to call one of three functions using a combination of sub-parsers and parser.set_defaults.
+    """
+
+    def f1():
+        return 'function 1'
+
+    def f2():
+        return 'function 2'
+
+    def f3():
+        return 'function 3'
+
+    parser = argparse.ArgumentParser()
+    subparsers = parser.add_subparsers(dest='cmd')
+
+    parser_f1 = subparsers.add_parser('f1')
+    parser_f1.set_defaults(func=f1)
+
+    parser_f2 = subparsers.add_parser('f2')
+    parser_f2.set_defaults(func=f2)
+
+    parser_f3 = subparsers.add_parser('f3')
+    parser_f3.set_defaults(func=f3)
+
+    args = parser.parse_args(*args)
+
+    return args.func()
+
+
 class Test_clp(unittest.TestCase):
 
     def test_args_ex_1_1(self):
@@ -143,6 +174,15 @@ class Test_clp(unittest.TestCase):
 
     def test_args_ex_4_3(self):
         self.assertEqual(clp_4(['store', '6', '7', '8']), [6, 7, 8])
+
+    def test_args_ex_5_1(self):
+        self.assertEqual(clp_5(['f1']), 'function 1')
+
+    def test_args_ex_5_2(self):
+        self.assertEqual(clp_5(['f2']), 'function 2')
+
+    def test_args_ex_5_3(self):
+        self.assertEqual(clp_5(['f3']), 'function 3')
 
 
 if __name__ == "__main__":
