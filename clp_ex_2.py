@@ -44,23 +44,20 @@ class Test_parse_command_line(unittest.TestCase):
     def test_fetch_calls_fetch_total(self, mock_fetch_total, mock_add_record):
         args = ['fetch', 'all']
         parse_command_line(args)
-        mock_fetch_total.assert_called_with([mock.call('any')])
+        mock_fetch_total.assert_called_with('any')
         mock_add_record.assert_not_called()
 
     def test_add_calls_add_record_without_date(self, mock_fetch_total, mock_add_record):
         args = ['add', 'J', '500', 'some description']
         parse_command_line(args)
         mock_fetch_total.assert_not_called()
-        mock_add_record.assert_called_with([mock.call('J'), mock.call(500.0),
-                                            mock.call('some description')])
+        mock_add_record.assert_called_with('J', 500.0, 'some description', None)
 
     def test_add_calls_add_record_with_date(self, mock_fetch_total, mock_add_record):
         args = ['add', 'J', '500', 'some description', '--date', '13-11-2017']
         parse_command_line(args)
         mock_fetch_total.assert_not_called()
-        mock_add_record.assert_called_with([mock.call('J'), mock.call(500.0),
-                                            mock.call('some description'),
-                                            mock.call(datetime.date(2017, 11, 13))])
+        mock_add_record.assert_called_with('J', 500.0, 'some description', datetime.datetime(2017, 11, 13))
 
 
 if __name__ == '__main__':
