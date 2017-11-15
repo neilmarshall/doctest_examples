@@ -8,7 +8,7 @@ def test_func(text, multiplier):
     >>> test_func('abc', 2)
     'ABCABC'
     
-    Function will raise an exception for arguments not of the right type
+    Function will raise an exception for arguments not of the right type:
     
     >>> test_func('abc', 'abc')
     Traceback (most recent call last):
